@@ -11,9 +11,9 @@
 #define SEED 2
 #define ROWS 10000
 #define COLS 10000
-#define MACRO_ROWS ROWS/10
-#define MACRO_COLS COLS/10
-#define N_THREADS 4
+#define MACRO_ROWS (ROWS/10)
+#define MACRO_COLS (COLS/10)
+#define N_THREADS 8
 
 /*
 "Faça testes com macroblocos de tamanhos diferentes, entre os
@@ -28,21 +28,26 @@ int** matriz;
 int proximoMacroDisponivel = 0;
 int totalMacros = (ROWS * COLS) / (MACRO_ROWS * MACRO_COLS);
 
+pthread_mutex_t mutex_pmacro_count;
+pthread_mutex_t mutex_primos_count;
+
 int isPrimo(int n) {
-    int primo;
-    if (n <= 2) {
-        primo = 0;
-    } else {
-        primo = 1;
-        for (int i = 2; i <= sqrt(n); i++) {
-            if (n % i == 0) {
-                primo = 0;
-                break;
-            }
+    if (n <= 1) {
+        return 0;  // 0, 1 e negativos não são primos
+    }
+    if (n == 2) {
+        return 1;  // 2 é primo
+    }
+    if (n % 2 == 0) {
+        return 0;  // números pares não são primos
+    }
+
+    for (int i = 3; i <= sqrt(n); i += 2) {  // só testa ímpares
+        if (n % i == 0) {
+            return 0;
         }
-        
-	}
-	return primo;
+    }
+    return 1;
 }
 
 double buscaSerial() {
@@ -62,25 +67,68 @@ double buscaSerial() {
 	return ((double)(end_serial - start_serial)) / CLOCKS_PER_SEC;
 }
 
-void buscaPrimo() {
-	int macros_row = ROWS / MACRO_ROWS;
-	int macros_col = COLS / MACRO_COLS;
-    int j_inicio = proximoMacroDisponivel % macros_row;
-    int i_inicio = proximoMacroDisponivel / macros_col;
-	//int fim = i_inicio + MACRO_SIZE;
+void* buscaPrimo(void* arg) {
+    
+    int thisMacro;
+    //printf("yaaay, a thread foi criada!\n");
+    while (1) {
+        //regiao critica?
+		//printf("antes do primeiro mutex\n");
+        pthread_mutex_lock(&mutex_pmacro_count);
+        if (proximoMacroDisponivel >= totalMacros) {
+            pthread_mutex_unlock(&mutex_pmacro_count);
+            //printf("thread finalizada\n");
+            return NULL;
+        }
+		//printf("dentro do primeiro mutex\n");
 
-	//macrobloco = matriz[i_inicio][
+        thisMacro = proximoMacroDisponivel;
+        //printf("procurando primos no macrobloco %d\n", thisMacro);
+        proximoMacroDisponivel++;
+        pthread_mutex_unlock(&mutex_pmacro_count);
+        //fim regiao critica?
+		//printf("fora do primeiro mutex\n");
 
-     for (int i = i_inicio; i=i_inicio + MACRO_ROWS; i++) {
-        for (int j = )
-	  proximoMacroDisponivel++; //regiao critica?
+        int macros_por_linha = COLS / MACRO_COLS;
+        int j_inicio = (thisMacro % macros_por_linha) * MACRO_COLS;
+        int i_inicio = (thisMacro / macros_por_linha) * MACRO_ROWS;
 
+        //printf("i=%d    .... i< %d\n", i_inicio, (i_inicio + MACRO_ROWS));
+        for (int i = i_inicio; i < i_inicio + MACRO_ROWS; i++) {
+            //printf("entrou no loop i");
+            for (int j = j_inicio; j < j_inicio + MACRO_COLS; j++) {
+                // TEMPORARIAMENTE COMENTADO PARA TESTAR
+                //printf("entrou no loop j");
+                if (isPrimo(matriz[i][j])) {
+                    pthread_mutex_lock(&mutex_primos_count);
+                    primos_count++;
+                    pthread_mutex_unlock(&mutex_primos_count);
+                }
+                
+
+                // Só pra testar se chega aqui
+                /*if (i == i_inicio && j == j_inicio) {
+                    printf("Processando elemento [%d][%d] = %d\n", i, j, matriz[i][j]);
+                }*/
+            }
+        }
+		//printf("macrobloco %d finalizado!\n", thisMacro);
+    }
+	
+    return NULL;
 }
 
 float buscaParalela() {
+    primos_count = 0;
+    proximoMacroDisponivel = 0;
+
     clock_t start_paral, end_paral;
-	primos_count = 0;
     
+    pthread_mutex_init(&mutex_pmacro_count, NULL);
+    pthread_mutex_init(&mutex_primos_count, NULL);
+    
+    pthread_t workers[N_THREADS];
+
     /*
     "Faça uma análise dessa comparação:
     Quantidade de Threads igual ao número de núcleos físicos x Quantidade
@@ -91,26 +139,35 @@ float buscaParalela() {
     */
 
 
-    pthread_t workers[N_THREADS];
-    pthread_mutex_t mutex;
-	pthread_mutex_init(&mutex, NULL);
-
     //criando as threads
+	start_paral = clock();
     for (int i = 0; i < N_THREADS; i++) {
-		pthread_create(&workers[i], NULL, NULL, NULL);//thread, attr, start_routine, arg
+		pthread_create(&workers[i], NULL, buscaPrimo, NULL);//thread, attr, start_routine, arg
 	}
     
+    //dando join nas threads (finalizando)
+    //ta certo isso ???
+    for (int i = 0; i < N_THREADS; i++) {
+        pthread_join(workers[i], NULL);
+    }
+	end_paral = clock();
 
-    /// busca propriamente dita
-    //separacao de submatrizes
-    int i_macro = 
+    pthread_mutex_destroy(&mutex_pmacro_count);
+    pthread_mutex_destroy(&mutex_primos_count);
 
-	return ((double)(end_paral - start_paral)) / CLOCKS_PER_SEC;
+    if (CLOCKS_PER_SEC == 0) {
+        printf("CLOCKS_PER_SEC = 0 !");
+        return;
+    }
+	return ((float)(end_paral - start_paral)) / (float)CLOCKS_PER_SEC;
 }
 
 
 int main() {
-
+    /*int a = MACRO_COLS;
+	int b = MACRO_ROWS;
+    printf(a);
+    printf(b);*/
     matriz = (int**)malloc(ROWS * sizeof(int*));
     if (matriz == NULL) {
         printf("erro ao alocar memória\n");
@@ -148,9 +205,14 @@ int main() {
 
 	double tempo_serial = buscaSerial();
 	printf("\n---BUSCA SERIAL---\n");
-	printf("Quantidade de primos encontrados: %lld\nTempo decorrido: %f\n", primos_count, tempo_serial);
+	printf("Quantidade de primos encontrados: %lld\nTempo decorrido: %fs\n", primos_count, tempo_serial);
 
-
+	double tempo_paralelo = buscaParalela();
+	printf("\n---BUSCA PARALELA---\n");
+	printf("Quantidade de primos encontrados: %lld\nTempo decorrido: %fs\n", primos_count, tempo_paralelo);
+	printf("Quantidade de threads: %d\n", N_THREADS);
+	printf("\n---SPEEDUP---\n");
+	printf("Speedup: %f\n", tempo_serial / tempo_paralelo);
 
 
 
