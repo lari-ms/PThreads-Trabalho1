@@ -65,8 +65,8 @@ double buscaSerial() {
 void buscaPrimo() {
 	int macros_row = ROWS / MACRO_ROWS;
 	int macros_col = COLS / MACRO_COLS;
-    int i_inicio = (proximoMacroDisponivel / macros_row) * MACRO_ROWS;
-	int j_inicio = (proximoMacroDisponivel % macros_col) * MACRO_COLS;
+    int j_inicio = proximoMacroDisponivel % macros_row;
+    int i_inicio = proximoMacroDisponivel / macros_col;
 	//int fim = i_inicio + MACRO_SIZE;
 
 	//macrobloco = matriz[i_inicio][
