@@ -8,12 +8,13 @@
 #include <math.h>
 #include <time.h>
 
-//gerar matriz de numeros aleatorios entre 0 e 31999
-
 #define SEED 2
 #define ROWS 10000
 #define COLS 10000
-#define MACRO_SIZE ROWS/10
+#define MACRO_ROWS ROWS/10
+#define MACRO_COLS COLS/10
+#define N_THREADS 4
+
 /*
 "Faça testes com macroblocos de tamanhos diferentes, entre os
 extremos: um único elemento e a matriz toda.
@@ -25,6 +26,7 @@ Anote esses valores, pois serão usados no relatório"
 long long primos_count = 0;
 int** matriz;
 int proximoMacroDisponivel = 0;
+int totalMacros = (ROWS * COLS) / (MACRO_ROWS * MACRO_COLS);
 
 int isPrimo(int n) {
     int primo;
@@ -60,7 +62,25 @@ double buscaSerial() {
 	return ((double)(end_serial - start_serial)) / CLOCKS_PER_SEC;
 }
 
+void buscaPrimo() {
+	int macros_row = ROWS / MACRO_ROWS;
+	int macros_col = COLS / MACRO_COLS;
+    int i_inicio = (proximoMacroDisponivel / macros_row) * MACRO_ROWS;
+	int j_inicio = (proximoMacroDisponivel % macros_col) * MACRO_COLS;
+	//int fim = i_inicio + MACRO_SIZE;
+
+	//macrobloco = matriz[i_inicio][
+
+     for (int i = i_inicio; i=i_inicio + MACRO_ROWS; i++) {
+        for (int j = )
+	  proximoMacroDisponivel++; //regiao critica?
+
+}
+
 float buscaParalela() {
+    clock_t start_paral, end_paral;
+	primos_count = 0;
+    
     /*
     "Faça uma análise dessa comparação:
     Quantidade de Threads igual ao número de núcleos físicos x Quantidade
@@ -70,9 +90,20 @@ float buscaParalela() {
 	2, 4 e 8 threads se o processador for 4 (8) núcleos (<= MEU PC)
     */
 
-    clock_t start_paral, end_paral;
-	primos_count = 0;
+
+    pthread_t workers[N_THREADS];
+    pthread_mutex_t mutex;
+	pthread_mutex_init(&mutex, NULL);
+
+    //criando as threads
+    for (int i = 0; i < N_THREADS; i++) {
+		pthread_create(&workers[i], NULL, NULL, NULL);//thread, attr, start_routine, arg
+	}
     
+
+    /// busca propriamente dita
+    //separacao de submatrizes
+    int i_macro = 
 
 	return ((double)(end_paral - start_paral)) / CLOCKS_PER_SEC;
 }
