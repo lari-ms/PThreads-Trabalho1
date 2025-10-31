@@ -11,8 +11,8 @@
 #define SEED 2
 #define ROWS 10000
 #define COLS 10000
-#define MACRO_ROWS (ROWS/10)
-#define MACRO_COLS (COLS/10)
+#define MACRO_ROWS 1000
+#define MACRO_COLS 1000
 #define N_THREADS 8
 
 /*
@@ -21,6 +21,16 @@ extremos: um único elemento e a matriz toda.
 (desde 1x1 até as dimensões da matriz, algo como: 1x1,
 10x10, 100x100, 1000x1000, ???, “matriz completa”)
 Anote esses valores, pois serão usados no relatório"
+*/
+
+
+/*
+"Faça uma análise dessa comparação:
+Quantidade de Threads igual ao número de núcleos físicos x Quantidade
+de Threads igual ao número de núcleos lógicos/virtuais, estimando,
+assim, o ganho proporcionado pelo SMT."
+
+2, 4 e 8 threads se o processador for 4 (8) núcleos (<= MEU PC)
 */
 
 long long primos_count = 0;
@@ -33,16 +43,17 @@ pthread_mutex_t mutex_primos_count;
 
 int isPrimo(int n) {
     if (n <= 1) {
-        return 0;  // 0, 1 e negativos não são primos
+        return 0;
     }
     if (n == 2) {
-        return 1;  // 2 é primo
+        return 1;
     }
     if (n % 2 == 0) {
-        return 0;  // números pares não são primos
+        return 0;
     }
 
-    for (int i = 3; i <= sqrt(n); i += 2) {  // só testa ímpares
+    double limite = sqrt(n);
+    for (int i = 3; i <= limite; i += 2) {
         if (n % i == 0) {
             return 0;
         }
@@ -70,49 +81,34 @@ double buscaSerial() {
 void* buscaPrimo(void* arg) {
     
     int thisMacro;
-    //printf("yaaay, a thread foi criada!\n");
     while (1) {
-        //regiao critica?
-		//printf("antes do primeiro mutex\n");
+        long long primos_count_local = 0;
+        //regiao critica
         pthread_mutex_lock(&mutex_pmacro_count);
         if (proximoMacroDisponivel >= totalMacros) {
             pthread_mutex_unlock(&mutex_pmacro_count);
-            //printf("thread finalizada\n");
             return NULL;
         }
-		//printf("dentro do primeiro mutex\n");
 
         thisMacro = proximoMacroDisponivel;
-        //printf("procurando primos no macrobloco %d\n", thisMacro);
         proximoMacroDisponivel++;
         pthread_mutex_unlock(&mutex_pmacro_count);
-        //fim regiao critica?
-		//printf("fora do primeiro mutex\n");
+        //fim regiao critica
 
         int macros_por_linha = COLS / MACRO_COLS;
         int j_inicio = (thisMacro % macros_por_linha) * MACRO_COLS;
         int i_inicio = (thisMacro / macros_por_linha) * MACRO_ROWS;
 
-        //printf("i=%d    .... i< %d\n", i_inicio, (i_inicio + MACRO_ROWS));
         for (int i = i_inicio; i < i_inicio + MACRO_ROWS; i++) {
-            //printf("entrou no loop i");
             for (int j = j_inicio; j < j_inicio + MACRO_COLS; j++) {
-                // TEMPORARIAMENTE COMENTADO PARA TESTAR
-                //printf("entrou no loop j");
                 if (isPrimo(matriz[i][j])) {
-                    pthread_mutex_lock(&mutex_primos_count);
-                    primos_count++;
-                    pthread_mutex_unlock(&mutex_primos_count);
+					primos_count_local++;
                 }
-                
-
-                // Só pra testar se chega aqui
-                /*if (i == i_inicio && j == j_inicio) {
-                    printf("Processando elemento [%d][%d] = %d\n", i, j, matriz[i][j]);
-                }*/
             }
         }
-		//printf("macrobloco %d finalizado!\n", thisMacro);
+        pthread_mutex_lock(&mutex_primos_count);
+        primos_count +=primos_count_local;
+        pthread_mutex_unlock(&mutex_primos_count);
     }
 	
     return NULL;
@@ -128,16 +124,6 @@ float buscaParalela() {
     pthread_mutex_init(&mutex_primos_count, NULL);
     
     pthread_t workers[N_THREADS];
-
-    /*
-    "Faça uma análise dessa comparação:
-    Quantidade de Threads igual ao número de núcleos físicos x Quantidade
-    de Threads igual ao número de núcleos lógicos/virtuais, estimando,
-    assim, o ganho proporcionado pelo SMT."
-    
-	2, 4 e 8 threads se o processador for 4 (8) núcleos (<= MEU PC)
-    */
-
 
     //criando as threads
 	start_paral = clock();
@@ -164,10 +150,6 @@ float buscaParalela() {
 
 
 int main() {
-    /*int a = MACRO_COLS;
-	int b = MACRO_ROWS;
-    printf(a);
-    printf(b);*/
     matriz = (int**)malloc(ROWS * sizeof(int*));
     if (matriz == NULL) {
         printf("erro ao alocar memória\n");
@@ -179,7 +161,7 @@ int main() {
     for (int i = 0; i < ROWS; i++) {
         matriz[i] = (int*)malloc(COLS * sizeof(int));
         if (matriz[i] == NULL) {
-            printf("erro ao alocar memória\n");
+            printf("erro ao alocar memoria\n");
             for (int j = 0; j < i; j++) {
                 free(matriz[j]);
             }
@@ -202,6 +184,8 @@ int main() {
     mesma execução). De posse desses tempos, já exiba o speedup (Lei de Amdahl) pois ele é o principal
     parâmetro a ser avaliado no quesito desempenho"
     */
+    printf("matriz %dx%d    ..    macroblocos %dx%d\n", ROWS, COLS, MACRO_ROWS, MACRO_COLS);
+	printf("total de macroblocos: %d\n", totalMacros);
 
 	double tempo_serial = buscaSerial();
 	printf("\n---BUSCA SERIAL---\n");
