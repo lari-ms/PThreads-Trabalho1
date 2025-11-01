@@ -9,9 +9,9 @@
 #include <time.h>
 
 #define SEED 2
-#define ROWS 10000
-#define COLS 10000
-#define MACRO_ROWS 1000
+#define ROWS 20000//20000
+#define COLS 20000//20000
+#define MACRO_ROWS 1000 //1//20//200//2000/20000
 #define MACRO_COLS 1000
 #define N_THREADS 8
 
@@ -52,7 +52,7 @@ int isPrimo(int n) {
         return 0;
     }
 
-    double limite = sqrt(n);
+    int limite = (int)sqrt(n);
     for (int i = 3; i <= limite; i += 2) {
         if (n % i == 0) {
             return 0;
@@ -82,7 +82,6 @@ void* buscaPrimo(void* arg) {
     
     int thisMacro;
     while (1) {
-        long long primos_count_local = 0;
         //regiao critica
         pthread_mutex_lock(&mutex_pmacro_count);
         if (proximoMacroDisponivel >= totalMacros) {
@@ -94,6 +93,8 @@ void* buscaPrimo(void* arg) {
         proximoMacroDisponivel++;
         pthread_mutex_unlock(&mutex_pmacro_count);
         //fim regiao critica
+
+        long long primos_count_local = 0;
 
         int macros_por_linha = COLS / MACRO_COLS;
         int j_inicio = (thisMacro % macros_por_linha) * MACRO_COLS;
@@ -111,7 +112,8 @@ void* buscaPrimo(void* arg) {
         pthread_mutex_unlock(&mutex_primos_count);
     }
 	
-    return NULL;
+    //return NULL; acho q n precisa desse return, ja que
+    //a funcao sempre vai terminar dentro do primeiro if
 }
 
 float buscaParalela() {
