@@ -1,0 +1,89 @@
+
+matriz 20000x20000    ..    macroblocos 1000x1000
+total de macroblocos: 400
+
+---------------------------------------
+---BUSCA SERIAL---
+Tempo decorrido: 13.365000s
+
+---BUSCA PARALELA---
+Quantidade de threads: 4
+---SPEEDUP---
+Speedup: 3.895366
+
+------------------------------------------------------
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.331000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 1.894000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 7.038543
+--------------------------------------------------
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.355000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 1.874000s
+Quantidade de threads: 50
+
+---SPEEDUP---
+Speedup: 7.126468
+
+------------------------------------------------------------
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.355000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 2.294000s
+Quantidade de threads: 1000
+
+---SPEEDUP---
+Speedup: 5.821709
+
+--------------------------------------------
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.665000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 3.560000s
+Quantidade de threads: 2000
+
+---SPEEDUP---
+Speedup: 3.838483
+
+--------------------------------------------
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.368000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 7.480000s
+Quantidade de threads: 4000
+
+---SPEEDUP---
+Speedup: 1.787166
+
+-------------------------------------------
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.336000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 25.834999s
+Quantidade de threads: 8000
+
+---SPEEDUP---
+Speedup: 0.516199

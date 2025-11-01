@@ -11,9 +11,9 @@
 #define SEED 2
 #define ROWS 20000//20000
 #define COLS 20000//20000
-#define MACRO_ROWS 20000//20000
-#define MACRO_COLS 20000//2000/20000
-#define N_THREADS 8                           
+#define MACRO_ROWS 1000//20000
+#define MACRO_COLS 1000//2000/20000
+#define N_THREADS 8  //4   8    50   150   500  1000                 
 
 /*
 "Fa�a testes com macroblocos de tamanhos diferentes, entre os
