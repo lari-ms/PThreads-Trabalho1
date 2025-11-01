@@ -1,0 +1,103 @@
+fixei as threads pra 8 (quantidade de nucleos) e a matriz pra 20000x20000
+
+na primeira execucao, com macrobloco 1x1, ocorreu um exceção gerada por violação de acesso à memoria a partir da tentativa de acesso a uma posicao invalida na matriz, ou seja, area de memoria nao alocada. a remocao dos mutexes desencadeou numa condicao de corrida que fez com que mais de uma thread executassem simultaneamente a verificacao de macros a serem processados, seguida do incremento da variavel que, posteriormente, será usada para calcular a posicao dos elementos do macrobloco a ser processado. melhorar a explicação?
+
+matriz 20000x20000    ..    macroblocos 20x20
+total de macroblocos: 1000000
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.340000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43531247
+Tempo decorrido: 1.955000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 6.823529
+
+----------------------------------------------
+
+matriz 20000x20000    ..    macroblocos 200x200
+total de macroblocos: 10000
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.428000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545512
+Tempo decorrido: 1.880000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 7.142553
+
+---------------------------------------------------
+
+matriz 20000x20000    ..    macroblocos 2000x2000
+total de macroblocos: 100
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.332000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 1.926000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 6.922118
+
+----------------------------------------------
+
+matriz 20000x20000    ..    macroblocos 1000x1000
+total de macroblocos: 400
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.342000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43654316
+Tempo decorrido: 1.934000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 6.898656
+
+-------------------------------------------------
+
+matriz 20000x20000    ..    macroblocos 10000x10000
+total de macroblocos: 4
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.419000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 3.401000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 3.945604
+
+---------------------------------------------------
+
+matriz 20000x20000    ..    macroblocos 20000x20000
+total de macroblocos: 1
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.327000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.463000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 0.989898
