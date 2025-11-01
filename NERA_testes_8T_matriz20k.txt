@@ -1,0 +1,116 @@
+matriz 20000x20000    ..    macroblocos 1x1
+total de macroblocos: 400000000
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.327000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 60.605000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 0.219899
+
+
+----------------------------------------------------
+
+matriz 20000x20000    ..    macroblocos 20x20
+total de macroblocos: 1000000
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.391000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 1.945000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 6.884833
+
+------------------------------------------------------
+
+matriz 20000x20000    ..    macroblocos 200x200
+total de macroblocos: 10000
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.315000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 1.890000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 7.044974
+
+------------------------------------------------------
+
+matriz 20000x20000    ..    macroblocos 1000x1000
+total de macroblocos: 400
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.336000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 1.902000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 7.011567
+
+---------------------------------------------------
+
+matriz 20000x20000    ..    macroblocos 2000x2000
+total de macroblocos: 100
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.339000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 1.948000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 6.847536
+
+----------------------------------------------------
+matriz 20000x20000    ..    macroblocos 10000x10000
+total de macroblocos: 4
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.352000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 3.424000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 3.899533
+
+---------------------------------------------------------
+
+matriz 20000x20000    ..    macroblocos 20000x20000
+total de macroblocos: 1
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.401000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 43545523
+Tempo decorrido: 13.572000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 0.987401

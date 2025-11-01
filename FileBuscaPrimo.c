@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #pragma comment(lib,"pthreadVC2.lib")
 #define HAVE_STRUCT_TIMESPEC
 
@@ -11,26 +11,26 @@
 #define SEED 2
 #define ROWS 20000//20000
 #define COLS 20000//20000
-#define MACRO_ROWS 1000 //1//20//200//2000/20000
-#define MACRO_COLS 1000
-#define N_THREADS 8
+#define MACRO_ROWS 20000//20000
+#define MACRO_COLS 20000//2000/20000
+#define N_THREADS 8                           
 
 /*
-"Faça testes com macroblocos de tamanhos diferentes, entre os
-extremos: um único elemento e a matriz toda.
-(desde 1x1 até as dimensões da matriz, algo como: 1x1,
-10x10, 100x100, 1000x1000, ???, “matriz completa”)
-Anote esses valores, pois serão usados no relatório"
+"Faï¿½a testes com macroblocos de tamanhos diferentes, entre os
+extremos: um ï¿½nico elemento e a matriz toda.
+(desde 1x1 atï¿½ as dimensï¿½es da matriz, algo como: 1x1,
+10x10, 100x100, 1000x1000, ???, ï¿½matriz completaï¿½)
+Anote esses valores, pois serï¿½o usados no relatï¿½rio"
 */
 
 
 /*
-"Faça uma análise dessa comparação:
-Quantidade de Threads igual ao número de núcleos físicos x Quantidade
-de Threads igual ao número de núcleos lógicos/virtuais, estimando,
+"Faï¿½a uma anï¿½lise dessa comparaï¿½ï¿½o:
+Quantidade de Threads igual ao nï¿½mero de nï¿½cleos fï¿½sicos x Quantidade
+de Threads igual ao nï¿½mero de nï¿½cleos lï¿½gicos/virtuais, estimando,
 assim, o ganho proporcionado pelo SMT."
 
-2, 4 e 8 threads se o processador for 4 (8) núcleos (<= MEU PC)
+2, 4 e 8 threads se o processador for 4 (8) nï¿½cleos (<= MEU PC)
 */
 
 long long primos_count = 0;
@@ -154,7 +154,7 @@ float buscaParalela() {
 int main() {
     matriz = (int**)malloc(ROWS * sizeof(int*));
     if (matriz == NULL) {
-        printf("erro ao alocar memória\n");
+        printf("erro ao alocar memï¿½ria\n");
         free(matriz);
         return NULL;
     }
@@ -181,10 +181,10 @@ int main() {
     }
 
     /*
-    "permita que os testes multi e single aconteçam
-    numa única “rodada” do programa, ok? (Ou seja, que eu possa rodar tanto o serial quanto o paralelo na
-    mesma execução). De posse desses tempos, já exiba o speedup (Lei de Amdahl) pois ele é o principal
-    parâmetro a ser avaliado no quesito desempenho"
+    "permita que os testes multi e single aconteï¿½am
+    numa ï¿½nica ï¿½rodadaï¿½ do programa, ok? (Ou seja, que eu possa rodar tanto o serial quanto o paralelo na
+    mesma execuï¿½ï¿½o). De posse desses tempos, jï¿½ exiba o speedup (Lei de Amdahl) pois ele ï¿½ o principal
+    parï¿½metro a ser avaliado no quesito desempenho"
     */
     printf("matriz %dx%d    ..    macroblocos %dx%d\n", ROWS, COLS, MACRO_ROWS, MACRO_COLS);
 	printf("total de macroblocos: %d\n", totalMacros);
@@ -202,7 +202,7 @@ int main() {
 
 
 
-    // Libera a memória
+    // Libera a memï¿½ria
     for (int i = 0; i < ROWS; i++) {
         free(matriz[i]);
     }
@@ -213,10 +213,10 @@ int main() {
 
 /*
         MAIS COMENTARIOS DO GIRALDELI !!!
-• Aumente muito o número de threads (algumas centenas ou mais) a fim de que o overhead possa realmente ficar
-crítico e analise os resultados. Nesse caso, mantenha fixo o tamanho do macrobloco.
-• Remova os mutexes que protegem as Regiões Críticas. Isso mesmo... remova as proteções temporariamente, rode o
-programa com macroblocos pequenos e macroblocos grandes (por quê?) e observe os resultados.
+ï¿½ Aumente muito o nï¿½mero de threads (algumas centenas ou mais) a fim de que o overhead possa realmente ficar
+crï¿½tico e analise os resultados. Nesse caso, mantenha fixo o tamanho do macrobloco.
+ï¿½ Remova os mutexes que protegem as Regiï¿½es Crï¿½ticas. Isso mesmo... remova as proteï¿½ï¿½es temporariamente, rode o
+programa com macroblocos pequenos e macroblocos grandes (por quï¿½?) e observe os resultados.
 
 */
 

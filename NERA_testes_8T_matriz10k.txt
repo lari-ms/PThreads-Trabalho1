@@ -1,0 +1,116 @@
+matriz 10000x10000    ..    macroblocos 1x1
+total de macroblocos: 100000000
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 10888691
+Tempo decorrido: 3.346000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 10888691
+Tempo decorrido: 14.496000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 0.230822
+---------------------------------------
+
+matriz 10000x10000    ..    macroblocos 10x10
+total de macroblocos: 1000000
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 10888691
+Tempo decorrido: 3.337000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 10888691
+Tempo decorrido: 0.511000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 6.530333
+
+-----------------------------------------
+
+matriz 10000x10000    ..    macroblocos 100x100
+total de macroblocos: 10000
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 10888691
+Tempo decorrido: 3.335000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 10888691
+Tempo decorrido: 0.464000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 7.187500
+
+--------------------------------------------------
+
+matriz 10000x10000    ..    macroblocos 500x500
+total de macroblocos: 400
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 10888691
+Tempo decorrido: 3.324000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 10888691
+Tempo decorrido: 0.470000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 7.072340
+
+--------------------------------------------
+
+matriz 10000x10000    ..    macroblocos 1000x1000
+total de macroblocos: 100
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 10888691
+Tempo decorrido: 3.336000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 10888691
+Tempo decorrido: 0.478000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 6.979080
+
+----------------------------------------------
+
+matriz 10000x10000    ..    macroblocos 5000x5000
+total de macroblocos: 4
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 10888691
+Tempo decorrido: 3.334000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 10888691
+Tempo decorrido: 0.859000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 3.881257
+
+-------------------------------------------------
+
+matriz 10000x10000    ..    macroblocos 10000x10000
+total de macroblocos: 1
+
+---BUSCA SERIAL---
+Quantidade de primos encontrados: 10888691
+Tempo decorrido: 3.337000s
+
+---BUSCA PARALELA---
+Quantidade de primos encontrados: 10888691
+Tempo decorrido: 3.390000s
+Quantidade de threads: 8
+
+---SPEEDUP---
+Speedup: 0.984366
+
